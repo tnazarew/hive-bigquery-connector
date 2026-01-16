@@ -78,8 +78,10 @@ public class GCPLabelUtils {
     Map<String, String> hiveLabels = new HashMap<>();
     getQueryId(conf).ifPresent(p -> hiveLabels.put("hiveQueryId", p));
     getSessionId(conf).ifPresent(p -> hiveLabels.put("hiveSessionId", p));
-    if (!hiveLabelsSupplier.isPresent()) {
-      hiveLabelsSupplier = Optional.of(Suppliers.memoize(() -> computeHiveLabels(conf)));
+    synchronized (GCPLabelUtils.class) {
+      if (!hiveLabelsSupplier.isPresent()) {
+        hiveLabelsSupplier = Optional.of(Suppliers.memoize(() -> computeHiveLabels(conf)));
+      }
     }
     hiveLabels.putAll(hiveLabelsSupplier.get().get());
     return hiveLabels;
@@ -99,8 +101,8 @@ public class GCPLabelUtils {
         getClusterName(conf, httpClient).ifPresent(p -> gcpLabels.put("cluster.name", p));
         getClusterUUID(conf, httpClient).ifPresent(p -> gcpLabels.put("cluster.uuid", p));
         gcpLabels.put("job.type", "hive_dataproc_job");
-      } catch (IOException ignored) {
-        return new HashMap<>();
+      } catch (IOException e) {
+        LOG.warn("Failed to close HttpClient when computing hive labels", e);
       }
     }
     return gcpLabels;

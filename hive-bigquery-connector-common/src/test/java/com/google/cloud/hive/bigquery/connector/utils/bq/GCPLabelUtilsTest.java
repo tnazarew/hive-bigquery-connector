@@ -140,8 +140,7 @@ public class GCPLabelUtilsTest {
       return404ForEndpoint(GCPLabelUtils.CLUSTER_NAME_ENDPOINT);
       return;
     }
-    return200ForEndpoint(
-        GCPLabelUtils.PROJECT_ID_ENDPOINT, "projects/1/" + TEST_PROJECT_ID + suffix);
+    return200ForEndpoint(GCPLabelUtils.PROJECT_ID_ENDPOINT, TEST_PROJECT_ID + suffix);
     return200ForEndpoint(GCPLabelUtils.DATAPROC_REGION_ENDPOINT, TEST_REGION + suffix);
     return200ForEndpoint(GCPLabelUtils.CLUSTER_UUID_ENDPOINT, TEST_CLUSTER_UUID + suffix);
     return200ForEndpoint(GCPLabelUtils.CLUSTER_NAME_ENDPOINT, TEST_CLUSTER_NAME + suffix);
