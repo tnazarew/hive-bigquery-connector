@@ -75,8 +75,8 @@ public abstract class HiveBigQueryConfigTestBase {
     assertThat(opts.isWriteAtLeastOnce()).isFalse();
     assertThat(opts.getAccessToken()).isEmpty();
     assertThat(opts.getAccessTokenProviderConfig()).isEmpty();
-    assertThat(opts.getBigQueryJobLabels()).containsEntry("hiveQueryId", "abcd");
-    assertThat(opts.getBigQueryJobLabels()).containsEntry("hiveSessionId", "session-xyz");
+    assertThat(opts.getBigQueryJobLabels()).containsEntry("hive-query-id", "abcd");
+    assertThat(opts.getBigQueryJobLabels()).containsEntry("hive-session-id", "session-xyz");
     assertThat(opts.getBigQueryJobLabels()).hasSize(2);
     assertThat(opts.getBigQueryJobTimeoutInMinutes()).isEqualTo(360);
     assertThat(opts.getBigQueryStorageGrpcEndpoint()).isEmpty();
@@ -210,8 +210,8 @@ public abstract class HiveBigQueryConfigTestBase {
     assertThat(opts.getPartitionRange()).isEmpty();
     assertThat(opts.getParentProjectId()).isEqualTo(null);
     assertThat(opts.getBigQueryHttpEndpoint()).isEmpty();
-    assertThat(opts.getBigQueryJobLabels()).containsEntry("hiveQueryId", "abcd");
-    assertThat(opts.getBigQueryJobLabels()).containsEntry("hiveSessionId", "session-xyz");
+    assertThat(opts.getBigQueryJobLabels()).containsEntry("hive-query-id", "abcd");
+    assertThat(opts.getBigQueryJobLabels()).containsEntry("hive-session-id", "session-xyz");
     assertThat(opts.getBigQueryJobLabels()).hasSize(2);
     assertThat(opts.getBigQueryJobTimeoutInMinutes()).isEqualTo(360);
     assertThat(opts.getBigQueryStorageGrpcEndpoint()).isEmpty();

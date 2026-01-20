@@ -58,8 +58,8 @@ public class GCPLabelUtilsTest {
 
     // Should only contain query and session IDs, no GCP metadata
     assertEquals(2, labels.size());
-    assertEquals(TEST_QUERY_ID, labels.get("hiveQueryId"));
-    assertEquals(TEST_SESSION_ID, labels.get("hiveSessionId"));
+    assertEquals(TEST_QUERY_ID, labels.get("hive-query-id"));
+    assertEquals(TEST_SESSION_ID, labels.get("hive-session-id"));
   }
 
   @Test
@@ -69,9 +69,9 @@ public class GCPLabelUtilsTest {
 
     // failures should happen silently and we should still get query and session IDs
     assertEquals(3, labels.size());
-    assertEquals(TEST_QUERY_ID, labels.get("hiveQueryId"));
-    assertEquals(TEST_SESSION_ID, labels.get("hiveSessionId"));
-    assertEquals("hive_dataproc_job", labels.get("job.type"));
+    assertEquals(TEST_QUERY_ID, labels.get("hive-query-id"));
+    assertEquals(TEST_SESSION_ID, labels.get("hive-session-id"));
+    assertEquals("hive_dataproc_job", labels.get("job-type"));
   }
 
   @Test
@@ -80,13 +80,13 @@ public class GCPLabelUtilsTest {
     Map<String, String> labels = GCPLabelUtils.getHiveLabels(getConf("", true));
 
     assertEquals(7, labels.size());
-    assertEquals(TEST_QUERY_ID, labels.get("hiveQueryId"));
-    assertEquals(TEST_SESSION_ID, labels.get("hiveSessionId"));
-    assertEquals(TEST_PROJECT_ID, labels.get("projectId"));
+    assertEquals(TEST_QUERY_ID, labels.get("hive-query-id"));
+    assertEquals(TEST_SESSION_ID, labels.get("hive-session-id"));
+    assertEquals(TEST_PROJECT_ID, labels.get("project-id"));
     assertEquals(TEST_REGION, labels.get("region"));
-    assertEquals(TEST_CLUSTER_NAME, labels.get("cluster.name"));
-    assertEquals(TEST_CLUSTER_UUID, labels.get("cluster.uuid"));
-    assertEquals("hive_dataproc_job", labels.get("job.type"));
+    assertEquals(TEST_CLUSTER_NAME, labels.get("cluster-name"));
+    assertEquals(TEST_CLUSTER_UUID, labels.get("cluster-uuid"));
+    assertEquals("hive_dataproc_job", labels.get("job-type"));
   }
 
   @Test
@@ -94,12 +94,12 @@ public class GCPLabelUtilsTest {
     setupMockServerBaseSetup();
     Map<String, String> labelsFirst = GCPLabelUtils.getHiveLabels(getConf("", true));
 
-    assertEquals(TEST_QUERY_ID, labelsFirst.get("hiveQueryId"));
-    assertEquals(TEST_SESSION_ID, labelsFirst.get("hiveSessionId"));
-    assertEquals(TEST_PROJECT_ID, labelsFirst.get("projectId"));
+    assertEquals(TEST_QUERY_ID, labelsFirst.get("hive-query-id"));
+    assertEquals(TEST_SESSION_ID, labelsFirst.get("hive-session-id"));
+    assertEquals(TEST_PROJECT_ID, labelsFirst.get("project-id"));
     assertEquals(TEST_REGION, labelsFirst.get("region"));
-    assertEquals(TEST_CLUSTER_NAME, labelsFirst.get("cluster.name"));
-    assertEquals(TEST_CLUSTER_UUID, labelsFirst.get("cluster.uuid"));
+    assertEquals(TEST_CLUSTER_NAME, labelsFirst.get("cluster-name"));
+    assertEquals(TEST_CLUSTER_UUID, labelsFirst.get("cluster-uuid"));
 
     // Change mock server to return different values
     String suffix = "-changed";
@@ -108,15 +108,15 @@ public class GCPLabelUtilsTest {
     Map<String, String> labelsSecond = GCPLabelUtils.getHiveLabels(getConf(suffix, true));
 
     // Verify second call returns updated values for query and session IDs
-    assertEquals(TEST_QUERY_ID + suffix, labelsSecond.get("hiveQueryId"));
-    assertEquals(TEST_SESSION_ID + suffix, labelsSecond.get("hiveSessionId"));
+    assertEquals(TEST_QUERY_ID + suffix, labelsSecond.get("hive-query-id"));
+    assertEquals(TEST_SESSION_ID + suffix, labelsSecond.get("hive-session-id"));
 
     // Verify second call still returns original cached values for GCP metadata
-    assertEquals(TEST_PROJECT_ID, labelsSecond.get("projectId"));
+    assertEquals(TEST_PROJECT_ID, labelsSecond.get("project-id"));
     assertEquals(TEST_REGION, labelsSecond.get("region"));
-    assertEquals(TEST_CLUSTER_NAME, labelsSecond.get("cluster.name"));
-    assertEquals(TEST_CLUSTER_UUID, labelsSecond.get("cluster.uuid"));
-    assertEquals("hive_dataproc_job", labelsSecond.get("job.type"));
+    assertEquals(TEST_CLUSTER_NAME, labelsSecond.get("cluster-name"));
+    assertEquals(TEST_CLUSTER_UUID, labelsSecond.get("cluster-uuid"));
+    assertEquals("hive_dataproc_job", labelsSecond.get("job-type"));
   }
 
   private ImmutableMap<String, String> getConf(String suffix, Boolean isDataprocRuntime) {
