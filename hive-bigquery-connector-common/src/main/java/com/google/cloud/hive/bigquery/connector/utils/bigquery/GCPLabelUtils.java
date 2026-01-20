@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.cloud.hive.bigquery.connector.utils.bq;
+package com.google.cloud.hive.bigquery.connector.utils.bigquery;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -76,8 +76,8 @@ public class GCPLabelUtils {
 
   public static Map<String, String> getHiveLabels(ImmutableMap<String, String> conf) {
     Map<String, String> hiveLabels = new HashMap<>();
-    getQueryId(conf).ifPresent(p -> hiveLabels.put("hiveQueryId", p));
-    getSessionId(conf).ifPresent(p -> hiveLabels.put("hiveSessionId", p));
+    getQueryId(conf).ifPresent(p -> hiveLabels.put("hive-query-id", p));
+    getSessionId(conf).ifPresent(p -> hiveLabels.put("hive-session-id", p));
     synchronized (GCPLabelUtils.class) {
       if (!hiveLabelsSupplier.isPresent()) {
         hiveLabelsSupplier = Optional.of(Suppliers.memoize(() -> computeHiveLabels(conf)));
@@ -96,11 +96,11 @@ public class GCPLabelUtils {
     Map<String, String> gcpLabels = new HashMap<>();
     if (isDataprocRuntime(conf)) {
       try (CloseableHttpClient httpClient = createHttpClient()) {
-        getGCPProjectId(conf, httpClient).ifPresent(p -> gcpLabels.put("projectId", p));
+        getGCPProjectId(conf, httpClient).ifPresent(p -> gcpLabels.put("project-id", p));
         getDataprocRegion(conf, httpClient).ifPresent(p -> gcpLabels.put("region", p));
-        getClusterName(conf, httpClient).ifPresent(p -> gcpLabels.put("cluster.name", p));
-        getClusterUUID(conf, httpClient).ifPresent(p -> gcpLabels.put("cluster.uuid", p));
-        gcpLabels.put("job.type", "hive_dataproc_job");
+        getClusterName(conf, httpClient).ifPresent(p -> gcpLabels.put("cluster-name", p));
+        getClusterUUID(conf, httpClient).ifPresent(p -> gcpLabels.put("cluster-uuid", p));
+        gcpLabels.put("job-type", "hive_dataproc_job");
       } catch (IOException e) {
         LOG.warn("Failed to close HttpClient when computing hive labels", e);
       }
